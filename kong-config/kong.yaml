@@ -1,0 +1,11 @@
+_format_version: "2.1"
+_transform: true
+
+services:
+  - name: ml-ddbb-manager-service
+    url: http://ml-ddbb-manager:4000/health
+    routes:
+      - name: ml-ddbb-manager-service-routes
+        paths:
+          - /health
+        strip_path: true
