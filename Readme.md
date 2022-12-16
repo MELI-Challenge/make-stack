@@ -26,3 +26,5 @@ Para levantar el stack, es necesario correr el siguiente comando en la raíz de 
 ```
 make deploy
 ```
+
+Una vez ejecutado el comando, ve por un café. A la vuelta, el stack estará listo para ser utilizado en **http://localhost:8080**
