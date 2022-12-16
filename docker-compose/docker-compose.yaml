@@ -3,44 +3,12 @@ networks:
   default:
     name: kong-net
 services:
-  kong-postgres:
-    image: postgres:15-alpine
-    restart: always
-    hostname: kong-database
-    container_name: kong-database
-    environment:
-      POSTGRES_USER: "kong"
-      POSTGRES_DB: "kong"
-      POSTGRES_PASSWORD: "kong"
-    ports:
-      - "5432:5432"
-  kong-bootstrap:
-    image: kong:3.1.0-alpine
-    hostname: kong-bootstrap
-    container_name: kong-bootstrap
-    depends_on:
-      - kong-postgres
-    environment:
-      KONG_DATABASE: "postgres"
-      KONG_PG_HOST: "kong-database"
-      KONG_PG_DATABASE: "kong"
-      KONG_PG_USER: "kong"
-      KONG_PG_PASSWORD: "kong"
-    command: "kong migrations bootstrap"
-    restart: "on-failure"
   kong:
     image: kong:3.1.0-alpine
-    restart: always
     hostname: kong
     container_name: kong
-    depends_on:
-      - kong-bootstrap
     environment:
-      KONG_DATABASE: "postgres"
-      KONG_PG_HOST: "kong-database"
-      KONG_PG_DATABASE: "kong"
-      KONG_PG_USER: "kong"
-      KONG_PG_PASSWORD: "kong"
+      KONG_DATABASE: "off"
       KONG_PROXY_ACCESS_LOG: "/dev/stdout"
       KONG_ADMIN_ACCESS_LOG: "/dev/stdout"
       KONG_PROXY_ERROR_LOG: "/dev/stderr"
@@ -55,9 +23,52 @@ services:
       - "8444:8444"
     volumes:
       - ./kong-config:/opt/kong
-  ml-ddbb-manager-service:
-    image: ml-ddbb-manager:latest
-    hostname: ml-ddbb-manager
-    container_name: ml-ddbb-manager
+
+  users-manager:
+    image: users-manager:latest
+    hostname: users-manager
+    container_name: users-manager
     ports:
-      - "4000:4000"
+      - "4100:4100"
+
+  shipments-manager:
+    image: shipments-manager:latest
+    hostname: shipments-manager
+    container_name: shipments-manager
+    ports:
+      - "4200:4200"
+
+  restrictions-manager:
+    image: restrictions-manager:latest
+    hostname: restrictions-manager
+    container_name: restrictions-manager
+    ports:
+      - "4300:4300"
+
+  purchases-manager:
+    image: purchases-manager:latest
+    hostname: purchases-manager
+    container_name: purchases-manager
+    ports:
+      - "4400:4400"
+
+  payments-manager:
+    image: payments-manager:latest
+    hostname: payments-manager
+    container_name: payments-manager
+    ports:
+      - "4500:4500"
+
+  levels-manager:
+    image: levels-manager:latest
+    hostname: levels-manager
+    container_name: levels-manager
+    ports:
+      - "4600:4600"
+
+  ml-app:
+    image: ml-app:latest
+    hostname: ml-app
+    container_name: ml-app
+    ports:
+      - "8080:8080"

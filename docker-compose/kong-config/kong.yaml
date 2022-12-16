@@ -2,10 +2,101 @@ _format_version: "2.1"
 _transform: true
 
 services:
-  - name: ml-ddbb-manager-service
-    url: http://ml-ddbb-manager:4000/health
+  # APP
+  - name: ml-app
+    url: http://ml-app:8080
     routes:
-      - name: ml-ddbb-manager-service-routes
+      - name: ml-app-routes
         paths:
-          - /health
+          - /
+        strip_path: true
+  # Users
+  - name: users-manager
+    url: http://users-manager:4100/api/v1/user
+    routes:
+      - name: users-manager-routes
+        paths:
+          - /api/v1/user
+        strip_path: true
+  - name: users-manager-health
+    url: http://users-manager:4100/health
+    routes:
+      - name: users-manager-health-route
+        paths:
+          - /api/v1/user/health
+        strip_path: true
+  # Shipments
+  - name: shipments-manager
+    url: http://shipments-manager:4200
+    routes:
+      - name: shipments-manager-routes
+        paths:
+          - /api/v1/shipments/.*
+        strip_path: false
+  - name: shipments-manager-health
+    url: http://shipments-manager:4200/health
+    routes:
+      - name: shipments-manager-health-route
+        paths:
+          - /api/v1/shipment/health
+        strip_path: true
+  # Restrictions
+  - name: restrictions-manager
+    url: http://restrictions-manager:4300
+    routes:
+      - name: restrictions-manager-routes
+        paths:
+          - /api/v1/user/.*/restrictions
+        strip_path: false
+  - name: restrictions-manager-health
+    url: http://restrictions-manager:4300/health
+    routes:
+      - name: restrictions-manager-health-route
+        paths:
+          - /api/v1/restriction/health
+        strip_path: true
+  # Purchases
+  - name: purchases-manager
+    url: http://purchases-manager:4400
+    routes:
+      - name: purchases-manager-routes
+        paths:
+          - /api/v1/user/.*/purchases
+        strip_path: false
+  - name: purchases-manager-health
+    url: http://purchases-manager:4400/health
+    routes:
+      - name: purchases-manager-health-route
+        paths:
+          - /api/v1/purchase/health
+        strip_path: true
+  # Payments
+  - name: payments-manager
+    url: http://payments-manager:4500
+    routes:
+      - name: payments-manager-routes
+        paths:
+          - /api/v1/payment/.*
+        strip_path: false
+  - name: payments-manager-health
+    url: http://payments-manager:4500/health
+    routes:
+      - name: payments-manager-health-route
+        paths:
+          - /api/v1/payment/health
+        strip_path: true
+  # Level
+  - name: levels-manager
+    url: http://levels-manager:4600
+    routes:
+      - name: levels-manager-routes
+        paths:
+          - /api/v1/level/.*
+        strip_path: false
+  - name: levels-manager-health
+    url: http://levels-manager:4600/health
+    routes:
+      - name: levels-manager-health-route
+        paths:
+          - /api/v1/level/health
         strip_path: true
